@@ -5,12 +5,18 @@
 #include<WS2tcpip.h>
 #pragma comment(lib,"ws2_32")
 using namespace std;
+bool isCharacter(char a) {
+	return a == '.' || (a >= 'a' && a <= 'z') || (a >= 'A' && a <= 'Z') || a == '-';
+}
 bool isIPString(char* s) {
 	int i = 0;
-	while (s[i] != '\n') {
-		if()
+	while (s[i] != '\0') {
+		if(!isCharacter(s[i])) return false;
+			i++;
 	}
+	return true;
 }
+
 int main()
 {
 	WSAData wsa;
@@ -22,6 +28,10 @@ int main()
 		//lấy chuỗi kí tự từ bàn phím
 		char s[100];
 		cin.getline(s, 100);
+		if (!isIPString(s)) {
+			printf("Ten mien chua ky tu khong hop le");
+			return 1;
+		}
 		int ret = getaddrinfo(s, "http", NULL, &info);
 		int err = WSAGetLastError();
 		if (ret == 0) {
